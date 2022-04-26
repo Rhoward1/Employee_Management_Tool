@@ -17,7 +17,10 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n" + "=============== Employee Tracker Tool... By Ryan Howard ===============");
+  console.log("connected as id " + connection.threadId + "\n");
+  console.log("=======================================================================");
+  console.log("============    Employee Tracker Tool ... By Ryan Howard    ============");
+  console.log("=======================================================================");
   connection.queryPromise = promisify(connection.query)
   startPrompt()
 });
@@ -165,3 +168,60 @@ function addEmployee() {
   })
 }
 
+// Add Employee Role //
+function addRole() {
+  connection.query("SELECT roles.title AS Title, roles.salary AS Salary FROM roles", function (err, res) {
+    inquirer.prompt([
+      {
+        name: "Title",
+        type: "input",
+        message: "What is the roles Title?"
+      },
+      {
+        name: "Salary",
+        type: "input",
+        message: "What is the Salary?"
+
+      }
+    ]).then(function (res) {
+      connection.query(
+        "INSERT INTO roles SET ?",
+        {
+          title: res.Title,
+          salary: res.Salary,
+        },
+        function (err) {
+          if (err) throw err
+          console.table(res);
+          startPrompt();
+        }
+      )
+
+    });
+  });
+}
+
+// Add Department //
+function addDepartment() {
+
+  inquirer.prompt([
+    {
+      name: "name",
+      type: "input",
+      message: "What Department would you like to add?"
+    }
+  ]).then(function (res) {
+    var query = connection.query(
+      "INSERT INTO department SET ? ",
+      {
+        dept: res.name
+
+      },
+      function (err) {
+        if (err) throw err
+        console.table(res);
+        startPrompt();
+      }
+    )
+  })
+}
