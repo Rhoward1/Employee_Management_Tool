@@ -168,6 +168,51 @@ function addEmployee() {
   })
 }
 
+
+// Update Employee
+function updateEmployee() {
+  connection.query("SELECT employees.last_name, roles.title FROM employees JOIN roles ON employees.roles_id = roles.id;", function (err, res) {
+    if (err) throw err
+    console.log(res)
+
+    inquirer.prompt([
+      {
+        name: "lastName",
+        type: "rawlist",
+        choices: function () {
+          var lastName = [];
+          for (var i = 0; i < res.length; i++) {
+            lastName.push(res[i].last_name);
+          }
+          return lastName;
+        },
+        message: "What is the last name of the Employee? ",
+      },
+      {
+        name: "role",
+        type: "rawlist",
+        message: "What is the their new title? ",
+        choices: selectRole()
+      },
+
+    ]).then(function (val) {
+      var roleId = selectRole().indexOf(val.role) + 1
+      connection.query("UPDATE employee SET WHERE ?",
+        {
+          last_name: val.lastName,
+          roles_id: roleId,          
+        },
+
+        function (err) {
+          // if (err) throw err //Still trying to fix this one
+          console.table(val)
+          startPrompt()
+        })
+
+    });
+  });
+}
+
 // Add Employee Role //
 function addRole() {
   connection.query("SELECT roles.title AS Title, roles.salary AS Salary FROM roles", function (err, res) {
