@@ -1,6 +1,6 @@
 
 var mysql = require("mysql2");
-const cTable = require("console.table");
+// const cTable = require("console.table");
 const inquirer = require("inquirer");
 const { promisify } = require("util")
 
