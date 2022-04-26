@@ -98,3 +98,69 @@ function viewAllDepartments() {
   })
 }
 
+var roleArray = [];
+function selectRole() {
+  connection.query("SELECT * FROM roles", function(err, res) {
+    if (err) throw err
+    for (var i = 0; i < res.length; i++) {
+      roleArray.push(res[i].title);
+    }
+
+  })
+  return roleArray;
+}
+// Select Role Quieries The Managers for Add Employee Prompt //
+var managersArray = [];
+function selectManager() {
+  connection.query("SELECT first_name, last_name FROM employees WHERE manager_id IS NULL", function(err, res) {
+    if (err) throw err
+    for (var i = 0; i < res.length; i++) {
+      managersArray.push(res[i].first_name);
+    }
+
+  })
+  return managersArray;
+}
+// Add Employee //
+function addEmployee() { 
+    inquirer.prompt([
+        {
+          name: "firstName",
+          type: "input",
+          message: "Enter the first name of the Employee."
+        },
+        {
+          name: "lastName",
+          type: "input",
+          message: "Enter the last name of the Employee "
+        },
+        {
+          name: "role",
+          type: "list",
+          message: "What is their role? ",
+          choices: selectRole()
+        },
+        {
+            name: "manager",
+            type: "rawlist",
+            message: "Who is their manager?",
+            choices: selectManager()
+        }
+    ]).then(function (val) {
+      var roleId = selectRole().indexOf(val.role) + 1
+      var managerId = selectManager().indexOf(val.manager) + 1
+      connection.query("INSERT INTO employees SET ?", 
+      [{
+          first_name: val.firstName,
+          last_name: val.lastName,
+          manager_id: managerId,
+          roles_id: roleId
+          
+      }], function(err){
+          if (err) throw err
+          console.table(val)
+          startPrompt()
+      })
+
+  })
+}
