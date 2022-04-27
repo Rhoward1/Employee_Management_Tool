@@ -194,10 +194,11 @@ function updateEmployee() {
         message: "What is the their new title? ",
         choices: selectRole()
       },
-
+      
     ]).then(function (val) {
       var roleId = selectRole().indexOf(val.role) + 1
-      connection.query("UPDATE employee SET WHERE ?",
+      connection.query("UPDATE employee SET role_id = ? WHERE id = ?",
+      // connection.query("UPDATE employee SET WHERE ?",
         {
           last_name: val.lastName,
           roles_id: roleId,          

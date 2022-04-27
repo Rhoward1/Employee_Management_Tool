@@ -13,15 +13,14 @@ VALUES ("HR Recruiter", 70000, 1),
 
 
 INSERT INTO employees (first_name, last_name, roles_id, manager_id)
-VALUES ("Bill", "Lumbergh", 4, 1), ("Ryan", "Howard", 4,2);
-
-INSERT INTO employees (first_name, last_name, roles_id)
-VALUES  ("Bob", "Porter", 1),
-        ("Bob", "Slydell", 1),
-        ("Peter", "Gibbons", 4),
-        ("Michael", "Bolton", 4),
-        ("Samir", "Nagheenanaj", 4),
-        ("Milton", "Waddams", 2),
-        ("Drew", "Oface", 2),
-        ("Tom", "Smykowski", 3),
-        ("Dom", "Portwood", 3);
+VALUES  ("Bill", "Lumbergh", 4, 1),
+        ("Ryan", "Howard", 4, 2),
+        ("Bob", "Porter", 1, null),
+        ("Bob", "Slydell", 1, null),
+        ("Peter", "Gibbons", 4, null),
+        ("Michael", "Bolton", 4, null),
+        ("Samir", "Nagheenanaj", 4, null),
+        ("Milton", "Waddams", 2, null),
+        ("Drew", "Oface", 2, null),
+        ("Tom", "Smykowski", 3, null),
+        ("Dom", "Portwood", 3, null); 
